@@ -32,6 +32,24 @@ A responsive, single-user to-do list web application powered by **Spring Boot 4.
 
 Once running, access the web app at [http://localhost:8080](http://localhost:8080).
 
+## Phone Access Over Local Network (LAN)
+
+Spring Boot binds to all interfaces (`0.0.0.0`) by default:
+1. Ensure your Windows network connection profile is set to **Private**.
+2. Allow incoming traffic on port 8080 (PowerShell as Administrator):
+   ```powershell
+   New-NetFirewallRule -DisplayName "Todo dev 8080" -Direction Inbound -Protocol TCP -LocalPort 8080 -Action Allow -Profile Private
+   ```
+3. Locate your machine's local IP address:
+   ```powershell
+   Get-NetIPAddress -AddressFamily IPv4 | Where-Object { $_.IPAddress -notlike '169.*' -and $_.IPAddress -ne '127.0.0.1' }
+   ```
+4. On your mobile device connected to the same Wi-Fi network, navigate to `http://<your-ip>:8080`.
+5. Remove firewall rule when finished:
+   ```powershell
+   Remove-NetFirewallRule -DisplayName "Todo dev 8080"
+   ```
+
 ## Project Documentation
 
 - [`AGENTS.md`](AGENTS.md) — Coding conventions, Spring Boot 4 notes, and agent workflow guidelines.
