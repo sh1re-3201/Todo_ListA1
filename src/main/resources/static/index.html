@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="color-scheme" content="light dark">
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#121212" media="(prefers-color-scheme: dark)">
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; base-uri 'none'; form-action 'self'; object-src 'none'">
+    <title>To-do</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="styles.css">
+    <script type="module" src="app.js"></script>
+</head>
+<body>
+    <header class="app-header">
+        <div class="container">
+            <h1>To-do</h1>
+        </div>
+    </header>
+    <main class="container">
+        <section aria-labelledby="add-heading">
+            <h2 id="add-heading" class="visually-hidden">Add a to-do</h2>
+            <form id="add-form" class="todo-form" novalidate>
+                <div class="field">
+                    <label for="add-title">Title</label>
+                    <input id="add-title" name="title" type="text" required maxlength="200" autocomplete="off" enterkeyhint="done" aria-describedby="add-title-error">
+                    <p id="add-title-error" class="field-error" hidden></p>
+                </div>
+                <div class="field">
+                    <label for="add-description">Description <span class="optional">(optional)</span></label>
+                    <textarea id="add-description" name="description" rows="2" maxlength="1000" aria-describedby="add-description-error"></textarea>
+                    <p id="add-description-error" class="field-error" hidden></p>
+                </div>
+                <div class="field">
+                    <label for="add-dueDate">Due date <span class="optional">(optional)</span></label>
+                    <input id="add-dueDate" name="dueDate" type="date" aria-describedby="add-dueDate-error">
+                    <p id="add-dueDate-error" class="field-error" hidden></p>
+                </div>
+                <button type="submit" class="btn btn-primary">Add</button>
+            </form>
+        </section>
+        <div id="status" class="visually-hidden" role="status" aria-live="polite"></div>
+        <div id="error-banner" class="banner banner-error" role="alert" hidden></div>
+        <section aria-labelledby="list-heading">
+            <h2 id="list-heading" tabindex="-1">Your to-dos <span id="count"></span></h2>
+            <p id="loading" class="muted">Loading…</p>
+            <p id="empty" class="muted" hidden>Nothing to do yet. Add your first to-do above.</p>
+            <ul id="todo-list" class="todo-list" aria-busy="true"></ul>
+        </section>
+    </main>
+
+    <template id="todo-item-template">
+        <li class="todo-item">
+            <div class="todo-view">
+                <label class="check">
+                    <input type="checkbox" class="todo-toggle" data-action="toggle">
+                    <span class="visually-hidden toggle-label"></span>
+                </label>
+                <div class="todo-body">
+                    <p class="todo-title"></p>
+                    <p class="todo-desc" hidden></p>
+                    <p class="todo-meta" hidden><span class="badge" hidden></span> <time class="todo-due"></time></p>
+                </div>
+                <div class="todo-actions">
+                    <button type="button" class="btn" data-action="edit">Edit</button>
+                    <button type="button" class="btn btn-danger" data-action="delete">Delete</button>
+                </div>
+            </div>
+        </li>
+    </template>
+
+    <template id="todo-edit-template">
+        <form class="todo-form todo-edit" novalidate>
+            <div class="field">
+                <label class="edit-title-label">Title</label>
+                <input class="edit-title-input" name="title" type="text" required maxlength="200" autocomplete="off" enterkeyhint="done">
+                <p class="field-error edit-title-error" hidden></p>
+            </div>
+            <div class="field">
+                <label class="edit-desc-label">Description <span class="optional">(optional)</span></label>
+                <textarea class="edit-desc-input" name="description" rows="2" maxlength="1000"></textarea>
+                <p class="field-error edit-desc-error" hidden></p>
+            </div>
+            <div class="field">
+                <label class="edit-due-label">Due date <span class="optional">(optional)</span></label>
+                <input class="edit-due-input" name="dueDate" type="date">
+                <p class="field-error edit-due-error" hidden></p>
+            </div>
+            <div class="edit-actions">
+                <button type="submit" class="btn btn-primary">Save</button>
+                <button type="button" class="btn" data-action="cancel">Cancel</button>
+            </div>
+        </form>
+    </template>
+</body>
+</html>
