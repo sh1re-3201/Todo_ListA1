@@ -31,3 +31,8 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Agent docs & local editorconfig ###
+.editorconfig
+AGENTS.md
+PLANS.md
